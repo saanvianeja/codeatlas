@@ -48,5 +48,5 @@ def analyze_repo(folder):
         "results": results
     } 
 
-result = analyze_repo("sample_repo")
-print(result)
+if __name__ == "__main__":
+    print(analyze_repo("sample_repo"))
