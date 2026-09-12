@@ -2,7 +2,16 @@ from pathlib import Path
 import ast
 def analyze_file(file):
     code = file.read_text()
-    tree = ast.parse(code)
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return {
+            "file": file,
+            "imports": [],
+            "functions": [],
+            "classes": [],
+            "error": "SyntaxError"
+        }
     imports = []
     functions = []
     classes = []
@@ -44,7 +53,7 @@ def analyze_repo(folder):
                 dependencies.append((file.stem, imported_module))
     return {
         "dependencies": dependencies,
-        "files": dict_of_files,
+        #"files": dict_of_files,
         "results": results
     } 
 
