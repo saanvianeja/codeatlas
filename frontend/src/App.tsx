@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import {
   ReactFlow,
   Background,
@@ -28,6 +28,8 @@ function App() {
   const [error, seterror] = useState('')
   const [nodes, setNodes] = useState<Node[]>([])
   const [edges, setEdges] = useState<Edge[]>([])
+  const [selectedModule, setSelectedModule] = useState<string | null>(null)
+  const [affectedModules, setAffectedModules] = useState<string[]>([])
 
   function buildGraph(data: AnalysisResult) {
     const moduleNames = new Set<string>()
@@ -68,6 +70,34 @@ function App() {
     console.log(newEdges)
     setNodes(newNodes)
     setEdges(newEdges)
+  }
+
+  function findAffectedModules(moduleName: string) {
+    if (!result) return
+  
+    const queue = [moduleName]
+    const visited = new Set<string>([moduleName]) //starts with what is selected, set bc only once
+    const affected: string[] = []
+  
+    while (queue.length > 0) { //as long as something is waiting to be visited 
+      const current = queue.shift() //removes the first item in the front, FIFO
+  
+      if (!current) continue
+  
+      for (const dependency of result.dependencies) {
+        const source = dependency[0]
+        const target = dependency[1]
+  
+        if (target === current && !visited.has(source)) {
+          visited.add(source) //dont discover again, already visited
+          affected.push(source) //part of final answer
+          queue.push(source) //something could depend on this, need to investigate
+        }
+      }
+    }
+  
+    setSelectedModule(moduleName)
+    setAffectedModules(affected)
   }
 
   async function analyzeRepo(){
@@ -205,11 +235,40 @@ function App() {
               </div>
   
               <div className="h-[500px] overflow-hidden rounded-xl border border-slate-700 bg-slate-200">
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  fitView
-                >
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                fitView
+                onNodeClick={(_, node) => findAffectedModules(node.id)}
+              >
+                {selectedModule && (
+                  <div className="mt-6 rounded-xl border border-slate-800 bg-slate-950 p-4">
+                    <p className="text-sm text-slate-400">
+                      Impact analysis
+                    </p>
+
+                    <h3 className="mt-1 font-semibold">
+                      If <span className="text-indigo-400">{selectedModule}</span> changes:
+                    </h3>
+
+                    {affectedModules.length > 0 ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {affectedModules.map((module) => (
+                          <span
+                            key={module}
+                            className="rounded-lg bg-indigo-500/10 px-3 py-1 text-sm text-indigo-300"
+                          >
+                            {module}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-3 text-sm text-slate-500">
+                        No dependent modules found.
+                      </p>
+                    )}
+                  </div>
+                )}
                   <Background />
                   <Controls />
                 </ReactFlow>
