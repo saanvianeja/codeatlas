@@ -3,8 +3,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import subprocess
 import tempfile
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class AnalysisRequest(BaseModel):
     repo_url: str
 #query parameter = has the parameter passed in the URL, so /analyze?folder=sample_repo 
