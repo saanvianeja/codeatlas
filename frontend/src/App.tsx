@@ -6,6 +6,18 @@ import DependencyGraph from './components/DependencyGraph'
 import RepositoryFiles from './components/RepositoryFiles'
 import SemanticSearch from './components/SemanticSearch'
 
+function errorMessage(data: unknown, fallback: string) {
+  if (
+    typeof data === 'object' &&
+    data !== null &&
+    'detail' in data &&
+    typeof data.detail === 'string'
+  ) {
+    return data.detail
+  }
+  return fallback
+}
+
 function App() {
   const [repoUrl, setRepoUrl] = useState('')
   const [result, setResult] = useState<AnalysisResult | null>(null)
@@ -27,8 +39,8 @@ function App() {
       if (!current) continue
 
       for (const dependency of result.dependencies) {
-        const source = dependency[0]
-        const target = dependency[1]
+        const source = dependency.source
+        const target = dependency.target
 
         if (target === current && !visited.has(source)) {
           visited.add(source)
@@ -46,18 +58,18 @@ function App() {
     setLoading(true)
     setError('')
     try {
-      const response = await fetch('http://localhost:8000/analyze', {
+      const response = await fetch('http://localhost:8000/analyses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ repo_url: repoUrl }),
       })
+      const data: unknown = await response.json()
       if (!response.ok) {
-        throw new Error('Analysis failed')
+        throw new Error(errorMessage(data, 'Analysis failed'))
       }
-      const data: AnalysisResult = await response.json()
-      setResult(data)
+      setResult(data as AnalysisResult)
       setSelectedModule(null)
       setAffectedModules([])
     } catch (err) {
@@ -111,7 +123,7 @@ function App() {
           </>
         )}
 
-        <SemanticSearch />
+        <SemanticSearch analysisId={result?.analysis_id ?? null} />
       </div>
     </main>
   )

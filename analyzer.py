@@ -50,7 +50,10 @@ def analyze_repo(folder):
         imports = result["imports"]
         for imported_module in imports:
             if imported_module in dict_of_files:
-                dependencies.append((file.stem, imported_module))
+                dependencies.append({
+                    "source": file.stem,
+                    "target": imported_module,
+                })
 
     for result in results:
         result["file"] = str(result["file"].relative_to(folder))

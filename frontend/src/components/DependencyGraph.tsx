@@ -8,6 +8,7 @@ import {
   type Node,
 } from '@xyflow/react'
 import dagre from '@dagrejs/dagre'
+import type { Dependency } from '../types'
 
 import '@xyflow/react/dist/style.css'
 
@@ -16,7 +17,7 @@ const MIN_NODE_WIDTH = 140
 const MAX_NODE_WIDTH = 280
 
 type DependencyGraphProps = {
-  dependencies: string[][]
+  dependencies: Dependency[]
   selectedModule: string | null
   affectedModules: string[]
   onSelectModule: (moduleName: string) => void
@@ -27,15 +28,15 @@ function nodeWidthForLabel(label: string) {
 }
 
 function layoutGraph(
-  dependencies: string[][],
+  dependencies: Dependency[],
   selectedModule: string | null,
   affectedSet: Set<string>
 ): { nodes: Node[]; edges: Edge[] } {
   const moduleNames = new Set<string>()
 
   for (const dependency of dependencies) {
-    moduleNames.add(dependency[0])
-    moduleNames.add(dependency[1])
+    moduleNames.add(dependency.source)
+    moduleNames.add(dependency.target)
   }
 
   const graph = new dagre.graphlib.Graph()
@@ -58,7 +59,7 @@ function layoutGraph(
   }
 
   dependencies.forEach((dependency, index) => {
-    graph.setEdge(dependency[0], dependency[1], { id: `edge-${index}` })
+    graph.setEdge(dependency.source, dependency.target, { id: `edge-${index}` })
   })
 
   dagre.layout(graph)
@@ -111,15 +112,15 @@ function layoutGraph(
   const edges: Edge[] = dependencies.map((dependency, index) => {
     const highlighted =
       selectedModule !== null &&
-      (dependency[0] === selectedModule ||
-        dependency[1] === selectedModule ||
-        affectedSet.has(dependency[0]) ||
-        affectedSet.has(dependency[1]))
+      (dependency.source === selectedModule ||
+        dependency.target === selectedModule ||
+        affectedSet.has(dependency.source) ||
+        affectedSet.has(dependency.target))
 
     return {
       id: `edge-${index}`,
-      source: dependency[0],
-      target: dependency[1],
+      source: dependency.source,
+      target: dependency.target,
       markerEnd: {
         type: MarkerType.ArrowClosed,
         width: 16,
@@ -150,7 +151,10 @@ export default function DependencyGraph({
   )
 
   const graphKey = useMemo(
-    () => dependencies.map((dependency) => dependency.join('>')).join('|'),
+    () =>
+      dependencies
+        .map((dependency) => `${dependency.source}>${dependency.target}`)
+        .join('|'),
     [dependencies]
   )
 
