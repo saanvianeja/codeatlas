@@ -54,12 +54,48 @@ def analyze_repo(folder):
 
     for result in results:
         result["file"] = str(result["file"].relative_to(folder))
-        
+
     return {
         "dependencies": dependencies,
         #"files": dict_of_files,
         "files": results
     } 
 
+def extract_code_chunks(file):
+    code=file.read_text()
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return []
+    lines = code.splitlines()
+    chunks = []
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            start = node.lineno - 1
+            end = node.end_lineno
+            chunk_code = "\n".join(lines[start:end])
+            chunks.append({
+                "name": node.name,
+                "type": type(node).__name__,
+                "file": str(file),
+                "code": chunk_code
+            })
+    return chunks
+
+def extract_repo_chunks(folder):
+    all_chunks = []
+    folder = Path(folder)
+    python_files = folder.rglob("*.py")
+
+    for file in python_files:
+        file_chunks = extract_code_chunks(file)
+
+        for chunk in file_chunks:
+            chunk["file"] = str(file.relative_to(folder))
+
+        all_chunks.extend(file_chunks)
+
+    return all_chunks
+    
 if __name__ == "__main__":
     print(analyze_repo("sample_repo"))
