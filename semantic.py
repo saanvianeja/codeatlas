@@ -30,3 +30,21 @@ def semantic_search(query, index, top_k=5): #index is values
         chunk = index["chunks"][pair[1]]
         result.append({"Name": chunk["name"], "Type": chunk["type"], "File": chunk["file"], "Code": chunk["code"], "Score": pair[0].item()})
     return result
+
+def get_similarity(query, code):
+    query_embedding = model.encode(
+        query,
+        convert_to_tensor=True
+    )
+
+    code_embedding = model.encode(
+        code,
+        convert_to_tensor=True
+    )
+
+    similarity = util.cos_sim(
+        query_embedding,
+        code_embedding
+    )
+
+    return similarity.item()

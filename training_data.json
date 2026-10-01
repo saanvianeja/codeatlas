@@ -1,0 +1,968 @@
+{
+  "description": "Hand-labeled relevance pairs for a CodeAtlas semantic-search reranker. label=1 means relevant, label=0 means non-relevant.",
+  "version": "0.1",
+  "query_count": 30,
+  "example_count": 120,
+  "examples": [
+    {
+      "repo": "pallets/flask",
+      "query": "where is user login handled",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is user login handled",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "register",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is user login handled",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "logout",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is user login handled",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "index",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are new users registered",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "register",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are new users registered",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are new users registered",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "load_logged_in_user",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are new users registered",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the current logged in user loaded from the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "load_logged_in_user",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the current logged in user loaded from the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the current logged in user loaded from the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "logout",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the current logged in user loaded from the session",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "get_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is access restricted to logged in users",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login_required",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is access restricted to logged in users",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is access restricted to logged in users",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "register",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is access restricted to logged in users",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "get_post",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where does logout clear the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "logout",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where does logout clear the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where does logout clear the session",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "load_logged_in_user",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where does logout clear the session",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection created or retrieved",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "get_db",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection created or retrieved",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "close_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection created or retrieved",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection created or retrieved",
+      "file": "examples/tutorial/flaskr/__init__.py",
+      "chunk_name": "create_app",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection closed after a request",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "close_db",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection closed after a request",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "get_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection closed after a request",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the database connection closed after a request",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are the database tables initialized",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_db",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are the database tables initialized",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "get_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are the database tables initialized",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "close_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are the database tables initialized",
+      "file": "examples/tutorial/flaskr/__init__.py",
+      "chunk_name": "create_app",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are database teardown and cli commands registered with the app",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_app",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are database teardown and cli commands registered with the app",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_db_command",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are database teardown and cli commands registered with the app",
+      "file": "examples/tutorial/flaskr/__init__.py",
+      "chunk_name": "create_app",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are database teardown and cli commands registered with the app",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "register",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the Flask application created and configured",
+      "file": "examples/tutorial/flaskr/__init__.py",
+      "chunk_name": "create_app",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the Flask application created and configured",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "init_app",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the Flask application created and configured",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "index",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is the Flask application created and configured",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are blog posts listed",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "index",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are blog posts listed",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "create",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are blog posts listed",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "update",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where are blog posts listed",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a single blog post fetched and author permissions checked",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "get_post",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a single blog post fetched and author permissions checked",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "index",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a single blog post fetched and author permissions checked",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "create",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a single blog post fetched and author permissions checked",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "login_required",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a new blog post created",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "create",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a new blog post created",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "update",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a new blog post created",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a new blog post created",
+      "file": "examples/tutorial/flaskr/auth.py",
+      "chunk_name": "register",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is an existing blog post updated",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "update",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is an existing blog post updated",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "create",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is an existing blog post updated",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is an existing blog post updated",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "get_post",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a blog post deleted",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a blog post deleted",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "update",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a blog post deleted",
+      "file": "examples/tutorial/flaskr/blog.py",
+      "chunk_name": "create",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/flask",
+      "query": "where is a blog post deleted",
+      "file": "examples/tutorial/flaskr/db.py",
+      "chunk_name": "close_db",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the X-Token header validated",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_token_header",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the X-Token header validated",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_query_token",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the X-Token header validated",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_users",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the X-Token header validated",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the query token checked for the expected value",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_query_token",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the query token checked for the expected value",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_token_header",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the query token checked for the expected value",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user_me",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the query token checked for the expected value",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "update_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all users returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_users",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all users returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all users returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user_me",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all users returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_items",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the current user returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user_me",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the current user returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_users",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the current user returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is the current user returned",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_query_token",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a user looked up by username path parameter",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a user looked up by username path parameter",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_users",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a user looked up by username path parameter",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user_me",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a user looked up by username path parameter",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all items returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_items",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all items returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all items returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "update_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where are all items returned",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_users",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a specific item read by id and a 404 raised when missing",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a specific item read by id and a 404 raised when missing",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_items",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a specific item read by id and a 404 raised when missing",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "update_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is a specific item read by id and a 404 raised when missing",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/users.py",
+      "chunk_name": "read_user",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is an item update restricted and handled",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "update_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is an item update restricted and handled",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_item",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is an item update restricted and handled",
+      "file": "docs_src/bigger_applications/app_an_py310/routers/items.py",
+      "chunk_name": "read_items",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "query": "where is an item update restricted and handled",
+      "file": "docs_src/bigger_applications/app_an_py310/dependencies.py",
+      "chunk_name": "get_token_header",
+      "chunk_type": "AsyncFunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is the command line application initialized",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "cli",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is the command line application initialized",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is the command line application initialized",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is the command line application initialized",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "setuser",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where does the clone command choose a destination and checkout revision",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where does the clone command choose a destination and checkout revision",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where does the clone command choose a destination and checkout revision",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "copy",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where does the clone command choose a destination and checkout revision",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a repository deleted",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a repository deleted",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a repository deleted",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "copy",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a repository deleted",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are user credentials stored in repository config",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "setuser",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are user credentials stored in repository config",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "cli",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are user credentials stored in repository config",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are user credentials stored in repository config",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a commit message assembled and validated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a commit message assembled and validated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a commit message assembled and validated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "setuser",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is a commit message assembled and validated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "copy",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are files copied to a new destination",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "copy",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are files copied to a new destination",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are files copied to a new destination",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "commit",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where are files copied to a new destination",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "delete",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is repository configuration updated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "set_config",
+      "chunk_type": "FunctionDef",
+      "label": 1
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is repository configuration updated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "setuser",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is repository configuration updated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "cli",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    },
+    {
+      "repo": "pallets/click",
+      "query": "where is repository configuration updated",
+      "file": "examples/repo/repo.py",
+      "chunk_name": "clone",
+      "chunk_type": "FunctionDef",
+      "label": 0
+    }
+  ]
+}
