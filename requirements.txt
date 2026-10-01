@@ -1,9 +1,9 @@
 # CodeAtlas backend
-fastapi
-uvicorn
-pydantic
-sentence-transformers
-torch
+fastapi>=0.115.0
+uvicorn>=0.32.0
+pydantic>=2.0
+sentence-transformers>=3.0.0
+torch>=2.0.0
 
 # tests
-pytest
+pytest>=8.0.0

@@ -184,12 +184,15 @@ export default function DependencyGraph({
   )
 
   return (
-    <section className="mb-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+    <section className="mb-8 rounded-2xl border border-slate-800 bg-slate-900 p-5 sm:p-6">
       <div className="mb-5">
-        <h2 className="text-xl font-semibold">Dependency Graph</h2>
-        <p className="mt-1 text-sm text-slate-400">
-          An edge from A to B means A depends on B. Selecting a file shows
-          potential downstream dependents from statically resolved imports.
+        <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
+          Dependency graph
+        </h2>
+        <p className="mt-1.5 max-w-3xl text-sm leading-6 text-slate-400">
+          An edge from A to B means A imports B. Select a file for server-side
+          BFS potential-impact: files that would be affected if this module
+          changed.
         </p>
       </div>
 
@@ -198,8 +201,14 @@ export default function DependencyGraph({
           No Python files were found in this repository.
         </p>
       ) : (
+        <>
+        {dependencies.length === 0 && (
+          <p className="mb-4 rounded-lg border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-500">
+            No internal import edges were resolved. Isolated files still appear as nodes.
+          </p>
+        )}
         <div className="flex flex-col gap-4 lg:flex-row">
-          <div className="h-[520px] min-h-[360px] min-w-0 flex-1 overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
+          <div className="h-[420px] min-h-[280px] min-w-0 flex-1 overflow-hidden rounded-xl border border-slate-700 bg-slate-950 sm:h-[520px]">
             <ReactFlow
               key={graphKey}
               nodes={nodes}
@@ -292,7 +301,7 @@ export default function DependencyGraph({
               )
             )}
 
-            <div className="mt-auto hidden flex-col gap-2 pt-6 text-xs text-slate-500 lg:flex">
+            <div className="mt-auto flex flex-col gap-2 pt-6 text-xs text-slate-500">
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-sm bg-indigo-500" />
                 Selected
@@ -308,6 +317,7 @@ export default function DependencyGraph({
             </div>
           </aside>
         </div>
+        </>
       )}
     </section>
   )

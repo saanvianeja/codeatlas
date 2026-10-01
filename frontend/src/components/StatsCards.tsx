@@ -1,10 +1,11 @@
 import type { FileInfo } from '../types'
 
 type StatsCardsProps = {
+  repoUrl: string
   files: FileInfo[]
 }
 
-export default function StatsCards({ files }: StatsCardsProps) {
+export default function StatsCards({ repoUrl, files }: StatsCardsProps) {
   const functionCount = files.reduce(
     (sum, file) =>
       sum + file.functions.length + (file.async_functions?.length ?? 0),
@@ -21,16 +22,28 @@ export default function StatsCards({ files }: StatsCardsProps) {
   ]
 
   return (
-    <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-      {stats.map((stat) => (
-        <div
-          key={stat.label}
-          className="rounded-xl border border-slate-800 bg-slate-900 p-5"
-        >
-          <p className="text-sm text-slate-400">{stat.label}</p>
-          <p className="mt-2 text-3xl font-bold">{stat.value}</p>
-        </div>
-      ))}
-    </div>
+    <section className="mb-8">
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
+          Repository overview
+        </h2>
+        <p className="mt-1 truncate font-mono text-sm text-slate-500">{repoUrl}</p>
+      </div>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 sm:p-5"
+          >
+            <p className="text-xs uppercase tracking-wide text-slate-500 sm:text-sm sm:normal-case sm:tracking-normal">
+              {stat.label}
+            </p>
+            <p className="mt-2 text-2xl font-bold tabular-nums sm:text-3xl">
+              {stat.value}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
