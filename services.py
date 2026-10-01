@@ -112,14 +112,15 @@ def get_analysis(analysis_id: str) -> AnalysisRecord:
     return record
 
 
-def search_analysis(analysis_id: str, query: str) -> list[dict]:
+def search_analysis(
+    analysis_id: str,
+    query: str,
+    top_k: int = 5,
+) -> list[dict]:
     import semantic
 
     record = get_analysis(analysis_id)
-    if record.index is None:
-        return []
-
-    results = semantic.semantic_search(query, record.index)
+    results = semantic.semantic_search(query, record.index, top_k=top_k)
     if results is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

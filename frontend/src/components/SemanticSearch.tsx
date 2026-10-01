@@ -133,23 +133,23 @@ export default function SemanticSearch({ analysisId }: SemanticSearchProps) {
 
       {searchResults.length > 0 && (
         <div className="mt-6 space-y-4">
-          {searchResults.map((result, index) => (
+          {searchResults.map((result) => (
             <article
-              key={`${result.file}-${result.name}-${index}`}
+              key={`${result.file}-${result.qualified_name}-${result.start_line}`}
               className="rounded-xl border border-slate-800 bg-slate-950 p-5"
             >
               <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-mono text-base font-semibold text-slate-100">
-                      {result.name}
+                      {result.qualified_name}
                     </h3>
                     <span className="rounded-md bg-slate-800 px-2 py-0.5 text-xs text-slate-300">
                       {result.type}
                     </span>
                   </div>
                   <p className="mt-1 truncate font-mono text-sm text-slate-400">
-                    {result.file}
+                    {result.file} · lines {result.start_line}–{result.end_line}
                   </p>
                 </div>
 
@@ -158,7 +158,7 @@ export default function SemanticSearch({ analysisId }: SemanticSearchProps) {
                     Similarity
                   </p>
                   <p className="font-mono text-sm text-indigo-300">
-                    {result.score.toFixed(3)}
+                    {result.similarity.toFixed(2)}
                   </p>
                 </div>
               </div>

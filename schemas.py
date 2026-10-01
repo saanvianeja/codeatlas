@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class AnalysisCreateRequest(BaseModel):
@@ -7,6 +7,15 @@ class AnalysisCreateRequest(BaseModel):
 
 class SearchRequest(BaseModel):
     query: str = Field(min_length=1)
+    top_k: int = Field(default=5, ge=1, le=25)
+
+    @field_validator("query")
+    @classmethod
+    def strip_query(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("Query must not be empty.")
+        return stripped
 
 
 class ImportInfo(BaseModel):
@@ -53,11 +62,15 @@ class AnalysisResponse(BaseModel):
 
 
 class SearchResult(BaseModel):
+    rank: int
     name: str
+    qualified_name: str
     type: str
     file: str
+    start_line: int
+    end_line: int
+    similarity: float
     code: str
-    score: float
 
 
 class SearchResponse(BaseModel):

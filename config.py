@@ -30,6 +30,19 @@ SKIP_DIR_NAMES = frozenset(
     }
 )
 
+EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+DEFAULT_SEARCH_TOP_K = 5
+MAX_SEARCH_TOP_K = 25
+SEARCHABLE_SYMBOL_TYPES = frozenset(
+    {
+        "function",
+        "async_function",
+        "class",
+        "method",
+        "async_method",
+    }
+)
+
 
 def is_github_repo_url(repo_url: str) -> bool:
     return bool(GITHUB_REPO_URL_RE.match(repo_url.strip()))

@@ -26,7 +26,11 @@ def get_analysis(analysis_id: UUID):
 
 @router.post("/analyses/{analysis_id}/search", response_model=SearchResponse)
 def search_analysis(analysis_id: UUID, request: SearchRequest):
-    results = services.search_analysis(str(analysis_id), request.query)
+    results = services.search_analysis(
+        str(analysis_id),
+        request.query,
+        top_k=request.top_k,
+    )
     return {"results": results}
 
 

@@ -42,11 +42,15 @@ export type AnalysisResult = {
 }
 
 export type SemanticSearchResult = {
+  rank: number
   name: string
+  qualified_name: string
   type: string
   file: string
+  start_line: number
+  end_line: number
+  similarity: number
   code: string
-  score: number
 }
 
 export type ImpactResult = {

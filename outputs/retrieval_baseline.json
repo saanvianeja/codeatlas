@@ -1,0 +1,93 @@
+{
+  "status": "skipped",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "metrics": null,
+  "reason": "training_data.json is a pairwise reranker label set, not a full-corpus retrieval qrel file with source text. MiniLM Hit@K/MRR would require cloning unlabeled Flask/FastAPI/Click snapshots and treating unjudged symbols as non-relevant, which would not be a defensible baseline. No labels were invented or edited.",
+  "dataset": {
+    "path": "training_data.json",
+    "version": "0.1",
+    "unique_queries": 30,
+    "query_code_pairs": 120,
+    "positives": 30,
+    "negatives": 90,
+    "pairs_per_query": 4,
+    "positives_per_query": 1,
+    "repositories": {
+      "pallets/flask": 15,
+      "fastapi/fastapi": 8,
+      "pallets/click": 7
+    },
+    "unique_files": 8,
+    "unique_symbols": 31,
+    "duplicate_pair_keys": 0,
+    "queries_spanning_multiple_repos": 0,
+    "source_text_in_json": false,
+    "pinned_git_revisions": false,
+    "chunk_type_values": ["FunctionDef", "AsyncFunctionDef"],
+    "label_creation": "Appears hand-labeled: each query has one positive function whose name/doc-adjacent role matches the question, plus three easy negatives (often sibling functions in the same example file)."
+  },
+  "suitability": {
+    "minilm_full_corpus_retrieval_baseline": false,
+    "future_reranker_pairwise_training": "Possible after pinning repository revisions and resolving (file, chunk_name) to current AST symbols. Do not train until that mapping is verified.",
+    "maps_to_phase2_ast_types": "Not as stored. Labels use FunctionDef/AsyncFunctionDef rather than function/async_function/method/async_method, and have no qualified_name."
+  },
+  "phase5_query_split": {
+    "method": "Query-level split. Every example with the same query string stays in one split. Queries sorted alphabetically within repository, then sliced. Seed is unused because the split is lexicographic, not random.",
+    "counts": {"train": 18, "validation": 6, "test": 6},
+    "rule": "Train and tune the reranker only on train+validation. Report MiniLM vs MiniLM+reranker only on test. Never use test queries for training or hyperparameter search.",
+    "train": {
+      "fastapi/fastapi": [
+        "where are all items returned",
+        "where are all users returned",
+        "where is a specific item read by id and a 404 raised when missing",
+        "where is a user looked up by username path parameter",
+        "where is an item update restricted and handled"
+      ],
+      "pallets/click": [
+        "where are files copied to a new destination",
+        "where are user credentials stored in repository config",
+        "where does the clone command choose a destination and checkout revision",
+        "where is a commit message assembled and validated"
+      ],
+      "pallets/flask": [
+        "where are blog posts listed",
+        "where are database teardown and cli commands registered with the app",
+        "where are new users registered",
+        "where are the database tables initialized",
+        "where does logout clear the session",
+        "where is a blog post deleted",
+        "where is a new blog post created",
+        "where is a single blog post fetched and author permissions checked",
+        "where is access restricted to logged in users"
+      ]
+    },
+    "validation": {
+      "fastapi/fastapi": [
+        "where is the X-Token header validated",
+        "where is the current user returned"
+      ],
+      "pallets/click": [
+        "where is a repository deleted"
+      ],
+      "pallets/flask": [
+        "where is an existing blog post updated",
+        "where is the Flask application created and configured",
+        "where is the current logged in user loaded from the session"
+      ]
+    },
+    "test": {
+      "fastapi/fastapi": [
+        "where is the query token checked for the expected value"
+      ],
+      "pallets/click": [
+        "where is repository configuration updated",
+        "where is the command line application initialized"
+      ],
+      "pallets/flask": [
+        "where is the database connection closed after a request",
+        "where is the database connection created or retrieved",
+        "where is user login handled"
+      ]
+    }
+  }
+}
