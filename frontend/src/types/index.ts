@@ -1,19 +1,27 @@
 export type FileInfo = {
   file: string
-  imports: string[]
+  imports: Array<string | null>
   functions: string[]
   classes: string[]
+  error?: string | null
+}
+
+export type Dependency = {
+  source: string
+  target: string
 }
 
 export type AnalysisResult = {
+  analysis_id: string
+  repo_url: string
   files: FileInfo[]
-  dependencies: string[][]
+  dependencies: Dependency[]
 }
 
 export type SemanticSearchResult = {
-  Name: string
-  Type: string
-  File: string
-  Code: string
-  Score: number
+  name: string
+  type: string
+  file: string
+  code: string
+  score: number
 }
