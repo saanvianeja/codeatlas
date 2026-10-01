@@ -9,11 +9,32 @@ class SearchRequest(BaseModel):
     query: str = Field(min_length=1)
 
 
+class ImportInfo(BaseModel):
+    raw: str
+    kind: str
+    resolved_file: str | None = None
+
+
+class SymbolInfo(BaseModel):
+    name: str
+    qualified_name: str
+    type: str
+    file: str
+    lineno: int
+    end_lineno: int
+    arguments: list[str]
+    docstring: str | None = None
+    code: str
+
+
 class FileInfo(BaseModel):
     file: str
-    imports: list[str | None]
+    imports: list[ImportInfo]
     functions: list[str]
+    async_functions: list[str] = []
     classes: list[str]
+    methods: list[str] = []
+    symbols: list[SymbolInfo] = []
     error: str | None = None
 
 

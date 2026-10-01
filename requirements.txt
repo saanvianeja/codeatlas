@@ -1,0 +1,9 @@
+# CodeAtlas backend
+fastapi
+uvicorn
+pydantic
+sentence-transformers
+torch
+
+# tests
+pytest

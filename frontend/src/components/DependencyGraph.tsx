@@ -8,15 +8,16 @@ import {
   type Node,
 } from '@xyflow/react'
 import dagre from '@dagrejs/dagre'
-import type { Dependency } from '../types'
+import type { Dependency, FileInfo } from '../types'
 
 import '@xyflow/react/dist/style.css'
 
 const NODE_HEIGHT = 48
 const MIN_NODE_WIDTH = 140
-const MAX_NODE_WIDTH = 280
+const MAX_NODE_WIDTH = 360
 
 type DependencyGraphProps = {
+  files: FileInfo[]
   dependencies: Dependency[]
   selectedModule: string | null
   affectedModules: string[]
@@ -28,11 +29,16 @@ function nodeWidthForLabel(label: string) {
 }
 
 function layoutGraph(
+  files: FileInfo[],
   dependencies: Dependency[],
   selectedModule: string | null,
   affectedSet: Set<string>
 ): { nodes: Node[]; edges: Edge[] } {
   const moduleNames = new Set<string>()
+
+  for (const file of files) {
+    moduleNames.add(file.file)
+  }
 
   for (const dependency of dependencies) {
     moduleNames.add(dependency.source)
@@ -49,7 +55,7 @@ function layoutGraph(
     marginy: 24,
   })
 
-  const modules = Array.from(moduleNames)
+  const modules = Array.from(moduleNames).sort()
 
   for (const moduleName of modules) {
     graph.setNode(moduleName, {
@@ -98,7 +104,7 @@ function layoutGraph(
         height: NODE_HEIGHT,
         color,
         fontWeight: 600,
-        fontSize: 13,
+        fontSize: 12,
         borderRadius: 8,
         background,
         border,
@@ -138,6 +144,7 @@ function layoutGraph(
 }
 
 export default function DependencyGraph({
+  files,
   dependencies,
   selectedModule,
   affectedModules,
@@ -146,16 +153,19 @@ export default function DependencyGraph({
   const affectedSet = useMemo(() => new Set(affectedModules), [affectedModules])
 
   const { nodes, edges } = useMemo(
-    () => layoutGraph(dependencies, selectedModule, affectedSet),
-    [dependencies, selectedModule, affectedSet]
+    () => layoutGraph(files, dependencies, selectedModule, affectedSet),
+    [files, dependencies, selectedModule, affectedSet]
   )
 
   const graphKey = useMemo(
     () =>
-      dependencies
-        .map((dependency) => `${dependency.source}>${dependency.target}`)
-        .join('|'),
-    [dependencies]
+      [
+        ...files.map((file) => file.file),
+        ...dependencies.map(
+          (dependency) => `${dependency.source}>${dependency.target}`
+        ),
+      ].join('|'),
+    [files, dependencies]
   )
 
   return (
@@ -168,9 +178,9 @@ export default function DependencyGraph({
         </p>
       </div>
 
-      {dependencies.length === 0 ? (
+      {files.length === 0 ? (
         <p className="rounded-xl border border-slate-800 bg-slate-950 px-4 py-8 text-sm text-slate-500">
-          No module dependencies were found in this repository.
+          No Python files were found in this repository.
         </p>
       ) : (
         <div className="flex flex-col gap-4 lg:flex-row">

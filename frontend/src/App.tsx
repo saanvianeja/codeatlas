@@ -114,6 +114,7 @@ function App() {
           <>
             <StatsCards files={result.files} />
             <DependencyGraph
+              files={result.files}
               dependencies={result.dependencies}
               selectedModule={selectedModule}
               affectedModules={affectedModules}

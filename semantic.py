@@ -29,7 +29,13 @@ def semantic_search(query, index, top_k=5):
     result = []
     for pair in pairs:
         chunk = index["chunks"][pair[1]]
-        result.append({"Name": chunk["name"], "Type": chunk["type"], "File": chunk["file"], "Code": chunk["code"], "Score": pair[0].item()})
+        result.append({
+            "name": chunk["name"],
+            "type": chunk["type"],
+            "file": chunk["file"],
+            "code": chunk["code"],
+            "score": pair[0].item(),
+        })
     return result
 
 def get_similarity(query, code):

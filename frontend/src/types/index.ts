@@ -1,8 +1,31 @@
+export type ImportKind = "internal" | "stdlib" | "third_party" | "unresolved"
+
+export type ImportInfo = {
+  raw: string
+  kind: ImportKind
+  resolved_file: string | null
+}
+
+export type SymbolInfo = {
+  name: string
+  qualified_name: string
+  type: string
+  file: string
+  lineno: number
+  end_lineno: number
+  arguments: string[]
+  docstring: string | null
+  code: string
+}
+
 export type FileInfo = {
   file: string
-  imports: Array<string | null>
+  imports: ImportInfo[]
   functions: string[]
+  async_functions?: string[]
   classes: string[]
+  methods?: string[]
+  symbols?: SymbolInfo[]
   error?: string | null
 }
 

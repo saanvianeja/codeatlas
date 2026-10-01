@@ -6,7 +6,8 @@ type StatsCardsProps = {
 
 export default function StatsCards({ files }: StatsCardsProps) {
   const functionCount = files.reduce(
-    (sum, file) => sum + file.functions.length,
+    (sum, file) =>
+      sum + file.functions.length + (file.async_functions?.length ?? 0),
     0
   )
   const classCount = files.reduce((sum, file) => sum + file.classes.length, 0)

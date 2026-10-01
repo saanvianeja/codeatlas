@@ -1,3 +1,4 @@
+import os
 import subprocess
 import tempfile
 import uuid
@@ -7,6 +8,13 @@ from fastapi import HTTPException, status
 import analyzer
 import semantic
 import store
+from analyzer import AnalysisLimitError, EmptyRepositoryError
+from config import (
+    CLONE_TIMEOUT_SECONDS,
+    MAX_PYTHON_FILES,
+    MAX_TOTAL_SOURCE_BYTES,
+    is_github_repo_url,
+)
 from store import AnalysisRecord
 
 
@@ -17,28 +25,69 @@ def create_analysis(repo_url: str) -> AnalysisRecord:
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="A repository URL is required.",
         )
+    if not is_github_repo_url(repo_url):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Provide a public GitHub repository URL such as https://github.com/owner/repo.",
+        )
+
+    env = os.environ.copy()
+    env["GIT_TERMINAL_PROMPT"] = "0"
 
     with tempfile.TemporaryDirectory() as temp_dir:
         try:
             subprocess.run(
-                ["git", "clone", repo_url, temp_dir],
+                [
+                    "git",
+                    "-c",
+                    "core.hooksPath=/dev/null",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--single-branch",
+                    repo_url,
+                    temp_dir,
+                ],
                 check=True,
                 capture_output=True,
                 text=True,
+                timeout=CLONE_TIMEOUT_SECONDS,
+                env=env,
             )
         except FileNotFoundError:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="git is not available on the server.",
             )
+        except subprocess.TimeoutExpired:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cloning the repository timed out.",
+            )
         except subprocess.CalledProcessError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Could not clone the repository. Check that the URL is valid and the repo is accessible.",
+                detail="Could not clone the repository. Check that the URL is valid and the repo is public.",
             )
 
-        analysis = analyzer.analyze_repo(temp_dir)
-        chunks = analyzer.extract_repo_chunks(temp_dir)
+        try:
+            analysis = analyzer.analyze_repo(
+                temp_dir,
+                max_python_files=MAX_PYTHON_FILES,
+                max_total_bytes=MAX_TOTAL_SOURCE_BYTES,
+            )
+        except EmptyRepositoryError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(exc),
+            ) from exc
+        except AnalysisLimitError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(exc),
+            ) from exc
+
+        chunks = analyzer.chunks_from_analysis(analysis)
         index = semantic.build_index(chunks)
 
     record = AnalysisRecord(
