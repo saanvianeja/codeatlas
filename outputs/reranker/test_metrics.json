@@ -1,0 +1,35 @@
+{
+  "setting": "candidate_set_ranking_not_full_corpus_retrieval",
+  "test_queries": 6,
+  "candidates_per_query": 4,
+  "minilm": {
+    "queries": 6,
+    "hit_at_1": 0.8333333333333334,
+    "mrr": 0.9166666666666666,
+    "mean_positive_rank": 1.1666666666666667,
+    "positive_ranks": [
+      2,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "minilm_plus_reranker": {
+    "queries": 6,
+    "hit_at_1": 0.8333333333333334,
+    "mrr": 0.9166666666666666,
+    "mean_positive_rank": 1.1666666666666667,
+    "positive_ranks": [
+      2,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "reranker_improves_held_out": false,
+  "production_decision": "keep_minilm_only"
+}

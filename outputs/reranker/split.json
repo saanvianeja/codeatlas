@@ -1,0 +1,61 @@
+{
+  "method": "Query-level split. Every example with the same query string stays in one split. Queries sorted alphabetically within repository, then sliced. Seed is unused because the split is lexicographic, not random.",
+  "counts": {
+    "train": 18,
+    "validation": 6,
+    "test": 6
+  },
+  "train": [
+    "where are all items returned",
+    "where are all users returned",
+    "where is a specific item read by id and a 404 raised when missing",
+    "where is a user looked up by username path parameter",
+    "where is an item update restricted and handled",
+    "where are files copied to a new destination",
+    "where are user credentials stored in repository config",
+    "where does the clone command choose a destination and checkout revision",
+    "where is a commit message assembled and validated",
+    "where are blog posts listed",
+    "where are database teardown and cli commands registered with the app",
+    "where are new users registered",
+    "where are the database tables initialized",
+    "where does logout clear the session",
+    "where is a blog post deleted",
+    "where is a new blog post created",
+    "where is a single blog post fetched and author permissions checked",
+    "where is access restricted to logged in users"
+  ],
+  "validation": [
+    "where is the X-Token header validated",
+    "where is the current user returned",
+    "where is a repository deleted",
+    "where is an existing blog post updated",
+    "where is the Flask application created and configured",
+    "where is the current logged in user loaded from the session"
+  ],
+  "test": [
+    "where is the query token checked for the expected value",
+    "where is repository configuration updated",
+    "where is the command line application initialized",
+    "where is the database connection closed after a request",
+    "where is the database connection created or retrieved",
+    "where is user login handled"
+  ],
+  "pins": {
+    "pallets/flask": {
+      "url": "https://github.com/pallets/flask.git",
+      "tag": "3.1.1",
+      "commit": "7fff56f5172c48b6f3aedf17ee14ef5c2533dfd1"
+    },
+    "pallets/click": {
+      "url": "https://github.com/pallets/click.git",
+      "tag": "8.1.8",
+      "commit": "934813e4d421071a1b3db3973c02fe2721359a6e"
+    },
+    "fastapi/fastapi": {
+      "url": "https://github.com/fastapi/fastapi.git",
+      "tag": "0.136.3",
+      "commit": "82064857539e6286522c347b4b11331b48dd2378"
+    }
+  }
+}

@@ -12,6 +12,7 @@ from config import (
     CLONE_TIMEOUT_SECONDS,
     MAX_PYTHON_FILES,
     MAX_TOTAL_SOURCE_BYTES,
+    RERANKER_ENABLED,
     is_github_repo_url,
 )
 from store import AnalysisRecord
@@ -126,6 +127,12 @@ def search_analysis(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="A search query is required.",
         )
+    if RERANKER_ENABLED and results:
+        from reranker import get_production_model, rerank_search_results
+
+        model = get_production_model()
+        if model is not None:
+            results = rerank_search_results(query, results, record.index, model)
     return results
 
 

@@ -1,0 +1,35 @@
+{
+  "defensible": true,
+  "resolved": 120,
+  "unresolved": 0,
+  "ambiguous": 0,
+  "type_mismatches": [
+    {
+      "file": "examples/repo/repo.py",
+      "chunk_name": "set_config",
+      "labeled_type": "FunctionDef",
+      "ast_type": "method",
+      "qualified_name": "Repo.set_config",
+      "still_resolved": true
+    }
+  ],
+  "pins": {
+    "pallets/flask": {
+      "url": "https://github.com/pallets/flask.git",
+      "tag": "3.1.1",
+      "commit": "7fff56f5172c48b6f3aedf17ee14ef5c2533dfd1"
+    },
+    "pallets/click": {
+      "url": "https://github.com/pallets/click.git",
+      "tag": "8.1.8",
+      "commit": "934813e4d421071a1b3db3973c02fe2721359a6e"
+    },
+    "fastapi/fastapi": {
+      "url": "https://github.com/fastapi/fastapi.git",
+      "tag": "0.136.3",
+      "commit": "82064857539e6286522c347b4b11331b48dd2378"
+    }
+  },
+  "embedding_model": "all-MiniLM-L6-v2",
+  "note": "Labels were not edited. One labeled FunctionDef is an AST method (Click Repo.set_config)."
+}

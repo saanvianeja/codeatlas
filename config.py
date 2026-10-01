@@ -46,3 +46,31 @@ SEARCHABLE_SYMBOL_TYPES = frozenset(
 
 def is_github_repo_url(repo_url: str) -> bool:
     return bool(GITHUB_REPO_URL_RE.match(repo_url.strip()))
+
+
+RERANKER_ENABLED = False
+RERANKER_CHECKPOINT = "outputs/reranker/best.pt"
+RERANKER_SEED = 42
+RERANKER_LEARNING_RATE = 0.01
+RERANKER_MAX_EPOCHS = 300
+RERANKER_PATIENCE = 25
+RERANKER_INPUT_SIZE = 4
+RERANKER_HIDDEN_SIZE = 8
+
+RERANKER_SOURCE_PINS = {
+    "pallets/flask": {
+        "url": "https://github.com/pallets/flask.git",
+        "tag": "3.1.1",
+        "commit": "7fff56f5172c48b6f3aedf17ee14ef5c2533dfd1",
+    },
+    "pallets/click": {
+        "url": "https://github.com/pallets/click.git",
+        "tag": "8.1.8",
+        "commit": "934813e4d421071a1b3db3973c02fe2721359a6e",
+    },
+    "fastapi/fastapi": {
+        "url": "https://github.com/fastapi/fastapi.git",
+        "tag": "0.136.3",
+        "commit": "82064857539e6286522c347b4b11331b48dd2378",
+    },
+}
