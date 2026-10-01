@@ -5,6 +5,7 @@ import StatsCards from './components/StatsCards'
 import DependencyGraph from './components/DependencyGraph'
 import RepositoryFiles from './components/RepositoryFiles'
 import SemanticSearch from './components/SemanticSearch'
+import AskCodeAtlas from './components/AskCodeAtlas'
 
 function errorMessage(data: unknown, fallback: string) {
   if (
@@ -124,6 +125,7 @@ function App() {
         )}
 
         <SemanticSearch analysisId={result?.analysis_id ?? null} />
+        <AskCodeAtlas analysisId={result?.analysis_id ?? null} />
       </div>
     </main>
   )

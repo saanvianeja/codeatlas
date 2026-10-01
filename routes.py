@@ -6,6 +6,8 @@ import services
 from schemas import (
     AnalysisCreateRequest,
     AnalysisResponse,
+    AskRequest,
+    AskResponse,
     ImpactResponse,
     SearchRequest,
     SearchResponse,
@@ -44,3 +46,8 @@ def get_impact(
     ),
 ):
     return services.get_impact(str(analysis_id), file)
+
+
+@router.post("/analyses/{analysis_id}/ask", response_model=AskResponse)
+def ask_analysis(analysis_id: UUID, request: AskRequest):
+    return services.ask_analysis(str(analysis_id), request.question)

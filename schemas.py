@@ -77,6 +77,30 @@ class SearchResponse(BaseModel):
     results: list[SearchResult]
 
 
+class AskRequest(BaseModel):
+    question: str = Field(min_length=1)
+
+    @field_validator("question")
+    @classmethod
+    def strip_question(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("Question must not be empty.")
+        return stripped
+
+
+class AskSource(BaseModel):
+    file: str
+    qualified_name: str
+    start_line: int
+    end_line: int
+
+
+class AskResponse(BaseModel):
+    answer: str
+    sources: list[AskSource]
+
+
 class ImpactResponse(BaseModel):
     selected_file: str
     direct_dependents: list[str]

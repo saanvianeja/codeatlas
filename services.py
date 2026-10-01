@@ -12,6 +12,7 @@ from config import (
     CLONE_TIMEOUT_SECONDS,
     MAX_PYTHON_FILES,
     MAX_TOTAL_SOURCE_BYTES,
+    RAG_TOP_K,
     RERANKER_ENABLED,
     is_github_repo_url,
 )
@@ -134,6 +135,37 @@ def search_analysis(
         if model is not None:
             results = rerank_search_results(query, results, record.index, model)
     return results
+
+
+def ask_analysis(analysis_id: str, question: str, complete=None) -> dict:
+    from llm import LLMError, LLMNotConfigured, complete_chat
+    from rag import build_context
+
+    record = get_analysis(analysis_id)
+    hits = search_analysis(analysis_id, question, top_k=RAG_TOP_K)
+    packed = build_context(question, hits, record.dependencies)
+    if not packed["sources"]:
+        return {
+            "answer": "I don't have enough repository context to answer that question.",
+            "sources": [],
+        }
+    llm = complete or complete_chat
+    try:
+        answer = llm(packed["system_prompt"], packed["user_prompt"])
+    except LLMNotConfigured as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        ) from exc
+    except LLMError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=str(exc),
+        ) from exc
+    return {
+        "answer": answer,
+        "sources": packed["sources"],
+    }
 
 
 def get_impact(analysis_id: str, selected_file: str) -> dict:

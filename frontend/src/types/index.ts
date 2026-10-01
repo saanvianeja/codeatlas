@@ -61,3 +61,15 @@ export type ImpactResult = {
   total_impacted: number
   distances: Record<string, number>
 }
+
+export type AskSource = {
+  file: string
+  qualified_name: string
+  start_line: number
+  end_line: number
+}
+
+export type AskResult = {
+  answer: string
+  sources: AskSource[]
+}
