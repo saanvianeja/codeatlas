@@ -6,7 +6,6 @@ import uuid
 from fastapi import HTTPException, status
 
 import analyzer
-import semantic
 import store
 from analyzer import AnalysisLimitError, EmptyRepositoryError
 from config import (
@@ -88,6 +87,8 @@ def create_analysis(repo_url: str) -> AnalysisRecord:
             ) from exc
 
         chunks = analyzer.chunks_from_analysis(analysis)
+        import semantic
+
         index = semantic.build_index(chunks)
 
     record = AnalysisRecord(
@@ -112,6 +113,8 @@ def get_analysis(analysis_id: str) -> AnalysisRecord:
 
 
 def search_analysis(analysis_id: str, query: str) -> list[dict]:
+    import semantic
+
     record = get_analysis(analysis_id)
     if record.index is None:
         return []
@@ -123,3 +126,20 @@ def search_analysis(analysis_id: str, query: str) -> list[dict]:
             detail="A search query is required.",
         )
     return results
+
+
+def get_impact(analysis_id: str, selected_file: str) -> dict:
+    from impact import UnknownFileError, compute_potential_impact
+
+    record = get_analysis(analysis_id)
+    try:
+        return compute_potential_impact(
+            record.files,
+            record.dependencies,
+            selected_file,
+        )
+    except UnknownFileError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc

@@ -8,7 +8,7 @@ import {
   type Node,
 } from '@xyflow/react'
 import dagre from '@dagrejs/dagre'
-import type { Dependency, FileInfo } from '../types'
+import type { Dependency, FileInfo, ImpactResult } from '../types'
 
 import '@xyflow/react/dist/style.css'
 
@@ -19,9 +19,10 @@ const MAX_NODE_WIDTH = 360
 type DependencyGraphProps = {
   files: FileInfo[]
   dependencies: Dependency[]
-  selectedModule: string | null
-  affectedModules: string[]
-  onSelectModule: (moduleName: string) => void
+  impact: ImpactResult | null
+  impactLoading: boolean
+  impactError: string
+  onSelectFile: (filePath: string) => void
 }
 
 function nodeWidthForLabel(label: string) {
@@ -31,8 +32,7 @@ function nodeWidthForLabel(label: string) {
 function layoutGraph(
   files: FileInfo[],
   dependencies: Dependency[],
-  selectedModule: string | null,
-  affectedSet: Set<string>
+  impact: ImpactResult | null
 ): { nodes: Node[]; edges: Edge[] } {
   const moduleNames = new Set<string>()
 
@@ -70,24 +70,38 @@ function layoutGraph(
 
   dagre.layout(graph)
 
+  const selected = impact?.selected_file ?? null
+  const directSet = new Set(impact?.direct_dependents ?? [])
+  const transitiveSet = new Set(impact?.transitive_dependents ?? [])
+  const impactedSet = new Set(impact?.all_impacted_files ?? [])
+
   const nodes: Node[] = modules.map((moduleName) => {
     const layoutNode = graph.node(moduleName)
     const width = nodeWidthForLabel(moduleName)
-    const isSelected = selectedModule === moduleName
-    const isAffected = affectedSet.has(moduleName)
+    const isSelected = selected === moduleName
+    const isDirect = directSet.has(moduleName)
+    const isTransitive = transitiveSet.has(moduleName)
+    const isUnrelated = selected !== null && !isSelected && !isDirect && !isTransitive
 
     let background = '#e2e8f0'
     let border = '1px solid #94a3b8'
     let color = '#0f172a'
+    let opacity = 1
 
     if (isSelected) {
       background = '#6366f1'
       border = '2px solid #a5b4fc'
       color = '#f8fafc'
-    } else if (isAffected) {
+    } else if (isDirect) {
       background = '#312e81'
       border = '2px solid #818cf8'
       color = '#e0e7ff'
+    } else if (isTransitive) {
+      background = '#1e293b'
+      border = '2px solid #64748b'
+      color = '#cbd5e1'
+    } else if (isUnrelated) {
+      opacity = 0.4
     }
 
     return {
@@ -111,17 +125,18 @@ function layoutGraph(
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        opacity,
       },
     }
   })
 
   const edges: Edge[] = dependencies.map((dependency, index) => {
     const highlighted =
-      selectedModule !== null &&
-      (dependency.source === selectedModule ||
-        dependency.target === selectedModule ||
-        affectedSet.has(dependency.source) ||
-        affectedSet.has(dependency.target))
+      selected !== null &&
+      (dependency.source === selected ||
+        dependency.target === selected ||
+        impactedSet.has(dependency.source) ||
+        impactedSet.has(dependency.target))
 
     return {
       id: `edge-${index}`,
@@ -136,6 +151,7 @@ function layoutGraph(
       style: {
         stroke: highlighted ? '#818cf8' : '#64748b',
         strokeWidth: highlighted ? 2 : 1.25,
+        opacity: selected !== null && !highlighted ? 0.25 : 1,
       },
     }
   })
@@ -146,15 +162,14 @@ function layoutGraph(
 export default function DependencyGraph({
   files,
   dependencies,
-  selectedModule,
-  affectedModules,
-  onSelectModule,
+  impact,
+  impactLoading,
+  impactError,
+  onSelectFile,
 }: DependencyGraphProps) {
-  const affectedSet = useMemo(() => new Set(affectedModules), [affectedModules])
-
   const { nodes, edges } = useMemo(
-    () => layoutGraph(files, dependencies, selectedModule, affectedSet),
-    [files, dependencies, selectedModule, affectedSet]
+    () => layoutGraph(files, dependencies, impact),
+    [files, dependencies, impact]
   )
 
   const graphKey = useMemo(
@@ -173,8 +188,8 @@ export default function DependencyGraph({
       <div className="mb-5">
         <h2 className="text-xl font-semibold">Dependency Graph</h2>
         <p className="mt-1 text-sm text-slate-400">
-          Visualize relationships between modules in the repository. An edge
-          from A to B means A depends on B.
+          An edge from A to B means A depends on B. Selecting a file shows
+          potential downstream dependents from statically resolved imports.
         </p>
       </div>
 
@@ -194,7 +209,7 @@ export default function DependencyGraph({
               minZoom={0.15}
               maxZoom={1.5}
               nodesConnectable={false}
-              onNodeClick={(_, node) => onSelectModule(node.id)}
+              onNodeClick={(_, node) => onSelectFile(node.id)}
             >
               <Background color="#334155" gap={18} />
               <Controls />
@@ -203,54 +218,92 @@ export default function DependencyGraph({
 
           <aside className="flex w-full shrink-0 flex-col rounded-xl border border-slate-800 bg-slate-950 p-4 lg:w-80">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Impact analysis
+              Potential downstream impact
             </p>
 
-            {selectedModule ? (
+            {impactLoading && (
+              <p className="mt-3 text-sm text-slate-400">Calculating dependents…</p>
+            )}
+
+            {impactError && (
+              <p className="mt-3 rounded-lg border border-red-900 bg-red-950/40 px-3 py-2 text-sm text-red-300">
+                {impactError}
+              </p>
+            )}
+
+            {!impactLoading && !impactError && impact ? (
               <>
-                <h3 className="mt-2 text-base font-semibold leading-6">
-                  If{' '}
-                  <span className="text-indigo-400">{selectedModule}</span>{' '}
-                  changes
+                <h3 className="mt-2 text-sm font-semibold leading-6">
+                  Selected:{' '}
+                  <span className="font-mono text-indigo-400">
+                    {impact.selected_file}
+                  </span>
                 </h3>
 
-                <p className="mt-3 text-sm text-slate-400">
-                  {affectedModules.length} affected module
-                  {affectedModules.length === 1 ? '' : 's'}
-                </p>
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+                    <p className="text-[11px] uppercase tracking-wide text-slate-500">
+                      Direct dependents
+                    </p>
+                    <p className="mt-1 text-xl font-semibold">
+                      {impact.direct_dependents.length}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
+                    <p className="text-[11px] uppercase tracking-wide text-slate-500">
+                      Total downstream
+                    </p>
+                    <p className="mt-1 text-xl font-semibold">
+                      {impact.total_impacted}
+                    </p>
+                  </div>
+                </div>
 
-                {affectedModules.length > 0 ? (
-                  <ul className="mt-3 flex max-h-[380px] flex-col gap-2 overflow-y-auto">
-                    {affectedModules.map((moduleName) => (
+                {impact.total_impacted > 0 ? (
+                  <ul className="mt-3 flex max-h-[300px] flex-col gap-2 overflow-y-auto">
+                    {impact.all_impacted_files.map((filePath) => (
                       <li
-                        key={moduleName}
-                        className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-3 py-2 font-mono text-sm text-indigo-200"
+                        key={filePath}
+                        className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 font-mono text-sm text-slate-200"
                       >
-                        {moduleName}
+                        <span className="block truncate">{filePath}</span>
+                        <span className="text-xs text-slate-500">
+                          distance {impact.distances[filePath]}
+                          {impact.distances[filePath] === 1
+                            ? ' · direct'
+                            : ' · transitive'}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <p className="mt-4 rounded-lg border border-slate-800 bg-slate-900 px-3 py-4 text-sm text-slate-500">
-                    No other modules depend on this module.
+                    No other files import this file, directly or transitively.
                   </p>
                 )}
               </>
             ) : (
-              <p className="mt-3 text-sm leading-6 text-slate-500">
-                Select a module in the graph to see which modules would be
-                affected by a change.
-              </p>
+              !impactLoading &&
+              !impactError && (
+                <p className="mt-3 text-sm leading-6 text-slate-500">
+                  Select a file in the graph to see potential downstream
+                  dependents.
+                </p>
+              )
             )}
 
-            <div className="mt-auto hidden gap-4 pt-6 text-xs text-slate-500 lg:flex">
+            <div className="mt-auto hidden flex-col gap-2 pt-6 text-xs text-slate-500 lg:flex">
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-sm bg-indigo-500" />
                 Selected
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-sm bg-indigo-900 ring-1 ring-indigo-400" />
-                Affected
+                Direct dependent
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-sm bg-slate-800 ring-1 ring-slate-500" />
+                Transitive dependent
               </span>
             </div>
           </aside>

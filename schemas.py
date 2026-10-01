@@ -62,3 +62,12 @@ class SearchResult(BaseModel):
 
 class SearchResponse(BaseModel):
     results: list[SearchResult]
+
+
+class ImpactResponse(BaseModel):
+    selected_file: str
+    direct_dependents: list[str]
+    transitive_dependents: list[str]
+    all_impacted_files: list[str]
+    total_impacted: int
+    distances: dict[str, int]

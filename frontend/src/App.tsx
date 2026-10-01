@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { AnalysisResult } from './types'
+import type { AnalysisResult, ImpactResult } from './types'
 import RepoAnalyzer from './components/RepoAnalyzer'
 import StatsCards from './components/StatsCards'
 import DependencyGraph from './components/DependencyGraph'
@@ -23,35 +23,33 @@ function App() {
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [selectedModule, setSelectedModule] = useState<string | null>(null)
-  const [affectedModules, setAffectedModules] = useState<string[]>([])
+  const [impact, setImpact] = useState<ImpactResult | null>(null)
+  const [impactLoading, setImpactLoading] = useState(false)
+  const [impactError, setImpactError] = useState('')
 
-  function findAffectedModules(moduleName: string) {
+  async function loadImpact(filePath: string) {
     if (!result) return
 
-    const queue = [moduleName]
-    const visited = new Set<string>([moduleName])
-    const affected: string[] = []
-
-    while (queue.length > 0) {
-      const current = queue.shift()
-
-      if (!current) continue
-
-      for (const dependency of result.dependencies) {
-        const source = dependency.source
-        const target = dependency.target
-
-        if (target === current && !visited.has(source)) {
-          visited.add(source)
-          affected.push(source)
-          queue.push(source)
-        }
+    setImpactLoading(true)
+    setImpactError('')
+    try {
+      const params = new URLSearchParams({ file: filePath })
+      const response = await fetch(
+        `http://localhost:8000/analyses/${result.analysis_id}/impact?${params.toString()}`
+      )
+      const data: unknown = await response.json()
+      if (!response.ok) {
+        throw new Error(errorMessage(data, 'Impact analysis failed'))
       }
+      setImpact(data as ImpactResult)
+    } catch (err) {
+      setImpact(null)
+      setImpactError(
+        err instanceof Error ? err.message : 'Impact analysis failed'
+      )
+    } finally {
+      setImpactLoading(false)
     }
-
-    setSelectedModule(moduleName)
-    setAffectedModules(affected)
   }
 
   async function analyzeRepo() {
@@ -70,8 +68,8 @@ function App() {
         throw new Error(errorMessage(data, 'Analysis failed'))
       }
       setResult(data as AnalysisResult)
-      setSelectedModule(null)
-      setAffectedModules([])
+      setImpact(null)
+      setImpactError('')
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
@@ -116,9 +114,10 @@ function App() {
             <DependencyGraph
               files={result.files}
               dependencies={result.dependencies}
-              selectedModule={selectedModule}
-              affectedModules={affectedModules}
-              onSelectModule={findAffectedModules}
+              impact={impact}
+              impactLoading={impactLoading}
+              impactError={impactError}
+              onSelectFile={loadImpact}
             />
             <RepositoryFiles files={result.files} />
           </>

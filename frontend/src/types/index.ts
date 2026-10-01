@@ -48,3 +48,12 @@ export type SemanticSearchResult = {
   code: string
   score: number
 }
+
+export type ImpactResult = {
+  selected_file: string
+  direct_dependents: string[]
+  transitive_dependents: string[]
+  all_impacted_files: string[]
+  total_impacted: number
+  distances: Record<string, number>
+}
