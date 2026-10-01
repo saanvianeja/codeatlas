@@ -4,21 +4,19 @@ CodeAtlas maps a public Python GitHub repository: AST-derived symbols, an intern
 
 It is a local developer tool (FastAPI + React), not a hosted coding agent.
 
-**Demo screenshot (placeholder):** after a local run, capture the overview, dependency graph, Semantic Search, and Ask CodeAtlas panels and save as `docs/screenshot.png`.
-
 ## Architecture
 
 ```mermaid
 flowchart LR
-  clone[Git clone] --> ast[Python AST analysis]
-  ast --> graph[Internal import graph]
-  graph --> impact[BFS potential impact]
-  ast --> index[Cached MiniLM index]
-  index --> search[Semantic search]
-  search --> ctx[Bounded RAG context]
-  graph --> ctx
-  ctx --> llm[LLM]
-  llm --> answer[Grounded answer + sources]
+  cloneNode["Git clone"] --> astNode["Python AST analysis"]
+  astNode --> importGraph["Internal import graph"]
+  importGraph --> impactNode["BFS potential impact"]
+  astNode --> miniLm["Cached MiniLM index"]
+  miniLm --> searchNode["Semantic search"]
+  searchNode --> ragCtx["Bounded RAG context"]
+  importGraph --> ragCtx
+  ragCtx --> llmNode["LLM"]
+  llmNode --> answerNode["Grounded answer + sources"]
 ```
 
 ## Features
